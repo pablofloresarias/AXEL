@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pista · patinaje artístico</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8f2f7;--card:#fff;--ink:#0d2a3b;--mute:#5a7586;--line:#c9dce6;--acc:#d8265b;--ok:#1b8a6b;--warn:#c47a10;--acc-ink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1a26;--card:#122636;--ink:#e6f1f7;--mute:#8aa6b8;--line:#244157;--acc:#ff5c8a;--ok:#4fd1a5;--warn:#f0b34a;--acc-ink:#1a0610;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1a26;--card:#122636;--ink:#e6f1f7;--mute:#8aa6b8;--line:#244157;--acc:#ff5c8a;--ok:#4fd1a5;--warn:#f0b34a;--acc-ink:#1a0610;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.45 "Bricolage Grotesque",system-ui,sans-serif;padding-bottom:84px}
+main{max-width:640px;margin:0 auto;padding:20px 16px}
+h1{font-size:30px;font-weight:800;margin:0;letter-spacing:-.02em;line-height:1.1}
+h2{font-size:19px;font-weight:600;margin:0 0 10px}
+.sub{color:var(--mute);margin:4px 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.stat b{display:block;font-size:26px;font-weight:800;line-height:1.1}
+.stat span{color:var(--mute);font-size:13px}
+.hero{background:var(--ink);color:var(--bg);border-radius:18px;padding:20px;margin-bottom:14px}
+.hero .big{font-size:56px;font-weight:800;line-height:1;letter-spacing:-.03em}
+.hero p{margin:6px 0 0;opacity:.8}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;max-width:160px;background:none;border:0;color:var(--mute);font:600 14px inherit;font-family:inherit;padding:14px 4px;cursor:pointer;border-top:3px solid transparent}
+nav button[aria-current="true"]{color:var(--ink);border-top-color:var(--acc)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+label{display:block;font-size:14px;color:var(--mute);margin-bottom:10px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:4px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.el{display:grid;grid-template-columns:1.4fr 1fr 1fr 34px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.el input{margin:0;padding:8px;text-align:center}
+.x{background:none;border:0;color:var(--mute);font-size:20px;cursor:pointer}
+.btn{background:var(--acc);color:var(--acc-ink);border:0;border-radius:10px;font:700 16px inherit;font-family:inherit;padding:13px 18px;width:100%;cursor:pointer;margin-top:12px}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
+.bar{height:10px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;background:var(--ink);border-radius:6px}
+.bar i.ok{background:var(--ok)}.bar i.bad{background:var(--acc)}
+.ln{display:flex;justify-content:space-between;gap:10px;font-weight:600}
+.tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
+.tag.ok{color:var(--ok)}.tag.bad{color:var(--acc)}.tag.w{color:var(--warn)}
+.it{padding:10px 0;border-bottom:1px solid var(--line)}
+.it:last-child{border:0}
+.mute{color:var(--mute);font-size:14px}
+.chk{display:flex;gap:10px;align-items:center;padding:8px 0}
+.chk input{width:22px;height:22px;margin:0;accent-color:var(--acc)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:5}
+svg{width:100%;height:auto;display:block}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal .w{font-size:12px;color:var(--mute);padding:4px 0}
+.day{aspect-ratio:1;border:1px solid transparent;background:none;color:var(--ink);font:inherit;border-radius:8px;cursor:pointer;position:relative;padding:0}
+.day.has{background:var(--acc);color:var(--acc-ink);font-weight:700}
+.day.sel{border-color:var(--ink);box-shadow:0 0 0 2px var(--bg) inset}
+.day.hoy{border-color:var(--mute)}
+.cn{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cn button{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:18px;padding:4px 14px;cursor:pointer}
+.empty{color:var(--mute);text-align:center;padding:14px 0}
+@media (prefers-reduced-motion:no-preference){.toast{animation:in .2s ease-out}@keyframes in{from{opacity:0;transform:translate(-50%,8px)}}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<script>
+const JUMPS=['Waltz','Salchow','Toe loop','Loop','Flip','Lutz','Axel','Euler','Combinación de saltos'];
+const SPINS=['Trompo','Pirueta del ángel','Pirueta sentada','Pirueta con cambio de pie','Pirueta combinada','Secuencia de pasos'];
+const NOROT=['Waltz','Euler','Combinación de saltos'];
+const CATS=['Benjamín','Alevín','Infantil','Cadete','Juvenil','Junior','Sénior'];
+const KEY='pista-v2';
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const fmt=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const fd=s=>new Date(s+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
+const pc=(a,b)=>b?Math.round(100*a/b):0;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S,tab='inicio',toastT,editing=false,selDay='',cal=new Date();cal.setDate(1);
+let D={f:'',h:'',dur:60,rows:[],sel:'Salchow',rot:'Simple'};
+
+function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return{dep:null,ent:[],comp:[],obj:[]}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+S=load();
+
+const tot=l=>l.reduce((a,s)=>{s.items.forEach(i=>{a[0]+=i.int;a[1]+=i.ac});return a},[0,0]);
+const sesPct=s=>{const t=tot([s]);return pc(t[1],t[0])};
+function byEl(list){const m={};list.forEach(s=>s.items.forEach(i=>{m[i.el]=m[i.el]||{el:i.el,n:0,a:0};m[i.el].n+=i.int;m[i.el].a+=i.ac}));return Object.values(m).map(e=>({...e,p:pc(e.a,e.n)}))}
+function age(b){const n=new Date(),d=new Date(b+'T12:00');let a=n.getFullYear()-d.getFullYear();if(n<new Date(n.getFullYear(),d.getMonth(),d.getDate()))a--;return a}
+function toast(m){clearTimeout(toastT);let t=$('.toast');if(t)t.remove();t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);toastT=setTimeout(()=>t.remove(),2400)}
+
+/* Registro */
+function vReg(){
+  const d=S.dep||{};
+  return`<h1>${S.dep?'Editar perfil':'Bienvenida o bienvenido a la pista'}</h1><p class="sub">${S.dep?'Cambia tus datos.':'Regístrate para empezar a anotar tus entrenamientos. Empiezas de cero.'}</p>
+  <div class="card"><label>Nombre y apellidos<input id="rn" value="${esc(d.nombre||'')}" autocomplete="name"></label>
+  <div class="row2"><label>Fecha de nacimiento<input type="date" id="rb" value="${d.nac||''}"></label><label>DNI<input id="rd" value="${esc(d.dni||'')}"></label></div>
+  <label>Club<input id="rc" value="${esc(d.club||'')}"></label>
+  <div class="row2"><label>Categoría<select id="rk">${CATS.map(c=>`<option ${d.cat===c?'selected':''}>${c}</option>`).join('')}</select></label>
+  <label>Modalidad<select id="rm"><option ${d.mod==='Hielo'?'selected':''}>Hielo</option><option ${d.mod==='Ruedas'?'selected':''}>Ruedas</option></select></label></div>
+  <button class="btn" onclick="saveReg()">${S.dep?'Guardar cambios':'Empezar'}</button>${S.dep?'<button class="btn ghost" onclick="editing=false;render()">Cancelar</button>':''}</div>`;
+}
+function saveReg(){
+  const n=$('#rn').value.trim(),b=$('#rb').value;
+  if(!n||!b)return toast('Escribe tu nombre y tu fecha de nacimiento');
+  S.dep={nombre:n,nac:b,dni:$('#rd').value.trim(),club:$('#rc').value.trim(),cat:$('#rk').value,mod:$('#rm').value};
+  save();editing=false;tab='inicio';render();
+}
+
+/* Inicio */
+function chart(){
+  const v=S.ent.map(sesPct);if(v.length<2)return'<p class="empty">Con dos entrenamientos verás aquí tu evolución.</p>';
+  const W=320,H=120,x=i=>10+i*(W-20)/(v.length-1),y=p=>H-10-(p/100)*(H-20);
+  return`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución del porcentaje de éxito por entrenamiento"><polyline points="${v.map((p,i)=>x(i)+','+y(p)).join(' ')}" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linejoin="round"/>${v.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p)}" r="3" fill="var(--card)" stroke="var(--acc)" stroke-width="2"/>`).join('')}</svg>`;
+}
+function vInicio(){
+  const d=S.dep,t=tot(S.ent),mins=S.ent.reduce((a,s)=>a+s.dur,0),hoy=fmt(new Date());
+  const next=S.comp.filter(c=>c.f>=hoy).sort((a,b)=>a.f.localeCompare(b.f))[0];
+  const dias=next?Math.round((new Date(next.f+'T12:00')-new Date(hoy+'T12:00'))/864e5):0;
+  return`<h1>Hola, ${esc(d.nombre.split(' ')[0])}</h1><p class="sub">${[d.club,d.cat,d.mod,age(d.nac)+' años'].filter(Boolean).map(esc).join(' · ')}</p>
+  ${next?`<div class="hero"><div class="big">${dias===0?'Hoy':dias+(dias===1?' día':' días')}</div><p>para ${esc(next.n)} (${fd(next.f)}${next.lugar?', '+esc(next.lugar):''})</p></div>`:`<div class="card empty">Aún no tienes campeonatos. Añádelos en <b>Calendario</b>.</div>`}
+  <div class="stats"><div class="stat"><b>${S.ent.length?pc(t[1],t[0])+' %':'–'}</b><span>éxito global</span></div><div class="stat"><b>${S.ent.length}</b><span>entrenamientos</span></div><div class="stat"><b>${(mins/60).toFixed(1).replace('.0','')} h</b><span>en pista</span></div></div>
+  <div class="card"><h2>Evolución del éxito</h2>${chart()}</div>
+  <button class="btn" onclick="go('entrenar')">Registrar entrenamiento</button><button class="btn ghost" onclick="editing=true;render()">Editar perfil</button>`;
+}
+
+/* Entrenar */
+function rowsHTML(){
+  if(!D.rows.length)return'<p class="empty">Añade los elementos que has practicado hoy.</p>';
+  return`<div class="el mute"><span>Elemento</span><span style="text-align:center">Intentos</span><span style="text-align:center">Aciertos</span><span></span></div>`+D.rows.map((r,k)=>`<div class="el"><b>${esc(r.el)}</b><input type="number" min="0" value="${r.int}" aria-label="Intentos de ${esc(r.el)}" oninput="D.rows[${k}].int=+this.value"><input type="number" min="0" value="${r.ac}" aria-label="Aciertos de ${esc(r.el)}" oninput="D.rows[${k}].ac=+this.value"><button class="x" aria-label="Quitar ${esc(r.el)}" onclick="D.rows.splice(${k},1);$('#rows').innerHTML=rowsHTML()">×</button></div>`).join('');
+}
+function vEntrenar(){
+  if(!D.f){const n=new Date();D.f=fmt(n);D.h=pad(n.getHours())+':00'}
+  return`<h1>Nuevo entrenamiento</h1><p class="sub">Elige cada elemento y anota intentos y aciertos.</p>
+  <div class="card"><div class="row"><label>Fecha<input type="date" value="${D.f}" oninput="D.f=this.value"></label><label>Hora<input type="time" value="${D.h}" oninput="D.h=this.value"></label><label>Minutos<input type="number" min="5" value="${D.dur}" oninput="D.dur=+this.value"></label></div>
+  <div class="row2"><label>Elemento<select onchange="D.sel=this.value;$('#rot').hidden=NOROT.includes(D.sel)||SPINS.includes(D.sel)"><optgroup label="Saltos">${JUMPS.map(j=>`<option ${D.sel===j?'selected':''}>${j}</option>`).join('')}</optgroup><optgroup label="Giros y pasos">${SPINS.map(j=>`<option ${D.sel===j?'selected':''}>${j}</option>`).join('')}</optgroup></select></label>
+  <label id="rot" ${NOROT.includes(D.sel)||SPINS.includes(D.sel)?'hidden':''}>Rotaciones<select onchange="D.rot=this.value">${['Simple','Doble','Triple'].map(r=>`<option ${D.rot===r?'selected':''}>${r}</option>`).join('')}</select></label></div>
+  <button class="btn ghost" style="margin-top:0" onclick="addRow()">Añadir elemento</button>
+  <div id="rows" style="margin-top:12px">${rowsHTML()}</div>
+  <button class="btn" onclick="addEnt()">Guardar entrenamiento</button></div>
+  <h2>Anteriores</h2><div class="card">${S.ent.length?S.ent.slice().reverse().slice(0,6).map(s=>{const t=tot([s]);return`<div class="it"><div class="ln"><span>${fd(s.f)} · ${s.h}</span><span>${pc(t[1],t[0])} %</span></div><div class="mute">${s.dur} min · ${t[1]} de ${t[0]} intentos</div></div>`}).join(''):'<p class="empty">Todavía no has guardado ninguno.</p>'}</div>`;
+}
+function addRow(){
+  const label=(NOROT.includes(D.sel)||SPINS.includes(D.sel))?D.sel:D.rot+' '+D.sel;
+  if(D.rows.some(r=>r.el===label))return toast('Ese elemento ya está en la lista');
+  D.rows.push({el:label,int:0,ac:0});$('#rows').innerHTML=rowsHTML();
+}
+function addEnt(){
+  const items=D.rows.filter(r=>r.int>0);
+  if(!items.length)return toast('Añade un elemento con intentos');
+  if(items.some(r=>r.ac>r.int))return toast('Los aciertos no pueden superar los intentos');
+  S.ent.push({f:D.f,h:D.h,dur:D.dur||0,items});S.ent.sort((a,b)=>(a.f+a.h).localeCompare(b.f+b.h));save();
+  D={f:'',h:'',dur:60,rows:[],sel:'Salchow',rot:'Simple'};toast('Entrenamiento guardado');go('analisis');
+}
+
+/* Análisis */
+function vAnalisis(){
+  const all=byEl(S.ent),rec=byEl(S.ent.slice(-3)),old=byEl(S.ent.slice(0,-3));
+  const s=all.slice().sort((a,b)=>b.p-a.p),best=s.length>1?s[0]:null,worst=s.length>1?s[s.length-1]:null;
+  return`<h1>Análisis</h1><p class="sub">Calculado con todos tus entrenamientos.</p>
+  <div class="card"><h2>Por elemento</h2>${all.length?all.map(e=>{
+    const r=rec.find(x=>x.el===e.el),o=old.find(x=>x.el===e.el),tr=(r&&o)?r.p-o.p:null;
+    const tag=e===best?'<span class="tag ok">más dominado</span>':e===worst?'<span class="tag bad">mayor dificultad</span>':'';
+    return`<div class="it"><div class="ln"><span>${esc(e.el)} ${tag}</span><span>${e.p} %</span></div><div class="bar"><i class="${e===best?'ok':e===worst?'bad':''}" style="width:${e.p}%"></i></div><div class="mute">${e.a} de ${e.n}${tr!==null?` · tendencia reciente ${tr>=0?'+':''}${tr} pts`:''}</div></div>`}).join(''):'<p class="empty">Registra un entrenamiento para ver tu análisis.</p>'}</div>
+  <div class="card"><h2>Objetivos para el campeonato</h2>${S.obj.length?S.obj.map((o,i)=>`<label class="chk"><input type="checkbox" ${o.d?'checked':''} onchange="tog(${i})"><span style="color:var(--ink);${o.d?'text-decoration:line-through;opacity:.6':''}">${esc(o.t)}</span></label>`).join(''):'<p class="empty">Aún no tienes objetivos.</p>'}
+  <div style="display:flex;gap:8px;margin-top:8px"><input id="no" placeholder="Ej. Doble Axel limpio" style="margin:0"><button class="btn ghost" style="width:auto;margin:0" onclick="addObj()">Añadir</button></div></div>`;
+}
+function tog(i){S.obj[i].d=!S.obj[i].d;save();render()}
+function addObj(){const v=$('#no').value.trim();if(!v)return;S.obj.push({t:v,d:false});save();render()}
+
+/* Calendario */
+function vComp(){
+  const y=cal.getFullYear(),m=cal.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate(),hoy=fmt(new Date());
+  const has={};S.comp.forEach(c=>has[c.f]=1);
+  let cells='';for(let i=0;i<first;i++)cells+='<span></span>';
+  for(let d=1;d<=days;d++){const iso=y+'-'+pad(m+1)+'-'+pad(d);cells+=`<button class="day${has[iso]?' has':''}${iso===selDay?' sel':''}${iso===hoy?' hoy':''}" onclick="pick('${iso}')" aria-label="${d}${has[iso]?', hay competición':''}">${d}</button>`}
+  const l=S.comp.slice().sort((a,b)=>a.f.localeCompare(b.f));
+  return`<h1>Calendario</h1><p class="sub">Toca un día para preparar un campeonato en esa fecha.</p>
+  <div class="card"><div class="cn"><button onclick="mv(-1)" aria-label="Mes anterior">‹</button><b style="text-transform:capitalize">${cal.toLocaleDateString('es-ES',{month:'long',year:'numeric'})}</b><button onclick="mv(1)" aria-label="Mes siguiente">›</button></div>
+  <div class="cal">${['L','M','X','J','V','S','D'].map(w=>`<span class="w">${w}</span>`).join('')}${cells}</div></div>
+  <div class="card"><h2>Mis competiciones</h2>${l.length?l.map(c=>`<div class="it"><div class="ln"><span>${esc(c.n)}</span>${c.res?'<span class="tag ok">disputada</span>':c.f<hoy?'<span class="tag w">sin resultado</span>':'<span class="tag w">próxima</span>'}</div>
+  <div class="mute">${fd(c.f)}${c.lugar?' · '+esc(c.lugar):''} · ${esc(c.prog)}</div>${c.res?`<div style="margin-top:4px"><b>${esc(c.res)}</b></div>`:''}${c.obs?`<div class="mute">${esc(c.obs)}</div>`:''}</div>`).join(''):'<p class="empty">Aún no has añadido competiciones.</p>'}</div>
+  <div class="card"><h2>Añadir competición</h2><label>Nombre<input id="cn"></label><div class="row2"><label>Fecha<input type="date" id="cf" value="${selDay}"></label><label>Lugar<input id="cl"></label></div>
+  <label>Programa<select id="cp"><option>Programa corto</option><option>Programa libre</option></select></label><label>Resultado (opcional)<input id="cr" placeholder="Ej. 3.º · 61,2 pts"></label><label>Observaciones<textarea id="co" rows="2"></textarea></label>
+  <button class="btn" onclick="addComp()">Guardar competición</button></div>`;
+}
+function mv(n){cal.setMonth(cal.getMonth()+n);render()}
+function pick(i){selDay=i;render()}
+function addComp(){
+  const n=$('#cn').value.trim(),f=$('#cf').value;if(!n||!f)return toast('Pon nombre y fecha');
+  S.comp.push({n,f,lugar:$('#cl').value.trim(),prog:$('#cp').value,res:$('#cr').value.trim(),obs:$('#co').value.trim()});save();
+  selDay='';cal=new Date(f+'T12:00');cal.setDate(1);toast('Competición guardada');render();
+}
+
+const TABS=[['inicio','Inicio',vInicio],['entrenar','Entrenar',vEntrenar],['analisis','Análisis',vAnalisis],['comp','Calendario',vComp]];
+function go(t){tab=t;render();scrollTo(0,0)}
+function render(){
+  if(!S.dep||editing){$('#app').innerHTML=vReg();$('#nav').innerHTML='';return}
+  $('#app').innerHTML=TABS.find(t=>t[0]===tab)[2]();
+  $('#nav').innerHTML=TABS.map(t=>`<button onclick="go('${t[0]}')" aria-current="${t[0]===tab}">${t[1]}</button>`).join('');
+}
+render();
+</script>
+</body>
+</html>
